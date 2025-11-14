@@ -22,7 +22,7 @@ num = 4
 batch = 1
 rank = 4
 
-train_dataset_path = rf"F:\医学数据集\vitb-11个标签\b-{num}\CT_Abd-Gallbladder\{batch}"
+train_dataset_path = rf"F:\SAM-New\datasets\b-{num}\CT_Abd-Gallbladder\{batch}"
 checkpoint = r"E:\SAM\sam_vit_b_01ec64.pth"
 work_dir = r"F:\SAM-New\LoRA-LoRI\work_dir"
 task_name = f"b{num}_{rank}_{batch}折_LoRI"
@@ -38,6 +38,13 @@ sam = build_sam_vit_b(checkpoint=checkpoint)
 # LoRI：在 SAM 的 image_encoder 上插 LoRA(A,B)，并把 A 冻结、B 训练
 sam_lori = LoRI_sam(sam, rank=rank)
 model = sam_lori.sam
+
+for name, param in model.named_parameters():
+    if ("prompt_encoder" in name) or ("mask_decoder" in name):
+        param.requires_grad =False
+for name, param in model.named_parameters():
+    if param.requires_grad:
+        print(name)
 
 processor = Samprocessor(model)
 
@@ -63,8 +70,8 @@ seg_loss = monai.losses.DiceCELoss(sigmoid=True,
                                    reduction='mean')
 
 # ----------------- 训练配置 -----------------
-num_epochs_stage1 = 10   # 第一阶段：dense LoRI（B 全部可训练）
-num_epochs_stage2 = 10   # 第二阶段：sparse LoRI（按 mask 只训练 Top-k）
+num_epochs_stage1 = 1   # 第一阶段：dense LoRI（B 全部可训练）
+num_epochs_stage2 = 5   # 第二阶段：sparse LoRI（按 mask 只训练 Top-k）
 accumulation_steps = 8
 sparsity_ratio = 0.9     # 稀疏率：90% 位置变 0，只保留 10% 的 B 参数
 lr_stage1 = 1e-3
