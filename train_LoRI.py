@@ -177,6 +177,8 @@ for epoch in range(num_epochs_stage2):
         if (i + 1) % accumulation_steps == 0:
             optimizer.step()
             optimizer.zero_grad()
+            # 强制应用mask，确保mask==0的位置保持为0（防止Adam momentum导致非0更新）
+            sam_lori.apply_mask_to_B(zero_out_unselected=True)
 
         epoch_loss += loss.item()
         torch.cuda.empty_cache()
