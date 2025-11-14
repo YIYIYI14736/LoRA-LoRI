@@ -18,7 +18,7 @@ torch.manual_seed(2023)
 np.random.seed(2023)
 
 # ================== 基本配置 ==================
-num = 1
+num = 4
 batch = 1
 rank = 4
 device = "cuda:0" 
@@ -26,7 +26,9 @@ device = "cuda:0"
 npz_ts_path = rf"F:\医学数据集\vitb-11个标签\b-{num}\CT_Abd-Gallbladder\{3 - batch}"
 test_npzs = sorted(os.listdir(npz_ts_path))
 sam_ckpt = r"E:\SAM\sam_vit_b_01ec64.pth"
-lori_ckpt = f"F:\SAM-New\LoRA-LoRI\work_dir\b{num}_{rank}_{batch}折_LoRI\medsam_model_stage2_best.pth"
+work_dir = r"F:\SAM-New\LoRA-LoRI\work_dir"
+task_name = f"b{num}_{rank}_{batch}折_LoRI"
+lori_ckpt = join(work_dir, task_name, "medsam_model_stage2_best.pth")
 
 output_dir = rf"F:\SAM-New\LoRA-LoRI\work_dir\b{num}_{rank}_{batch}折"
 os.makedirs(output_dir, exist_ok=True)
