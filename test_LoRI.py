@@ -21,7 +21,7 @@ np.random.seed(2023)
 num = 4
 batch = 1
 rank = 4
-device = "cuda:0" 
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
 npz_ts_path = rf"F:\医学数据集\vitb-11个标签\b-{num}\CT_Abd-Gallbladder\{3 - batch}"
 test_npzs = sorted(os.listdir(npz_ts_path))
