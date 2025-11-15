@@ -1,3 +1,7 @@
+"""
+2025-11-14
+对于稀疏掩码为0的位置，强制置0
+"""
 import torch
 import monai
 from tqdm import tqdm
