@@ -203,6 +203,7 @@ for epoch in range(num_epochs_stage2):
     if epoch_loss < best_loss_stage2:
         best_loss_stage2 = epoch_loss
         torch.save(model.state_dict(), join(model_save_path, 'medsam_model_stage2_best.pth'))
+        sam_lori.save_lori_parameters(join(model_save_path, 'sam_lori_stage2_sparse.safetensors'))
 
     if (epoch + 1) % 10 == 0:
         plt.plot(losses_stage2)
