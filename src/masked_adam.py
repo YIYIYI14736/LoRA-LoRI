@@ -8,7 +8,7 @@ class MaskedAdam(Adam):
 
         self.param_to_mask = {}
         for p, m in zip(params, masks):
-            self.param_to_desk[id(p)] = m.bool()
+            self.param_to_mask[id(p)] = m.bool()
 
     @torch.no_grad()
     def step(self,closure=None):
