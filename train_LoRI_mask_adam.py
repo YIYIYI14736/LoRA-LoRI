@@ -167,7 +167,7 @@ optimizer = MaskedAdam(
     params=B_params,
     lr=lr_stage2,
     weight_decay=weight_decay_B,
-    masks=B_masks
+    mask=B_masks
 )
 
 losses_stage2 = []
