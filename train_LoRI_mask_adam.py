@@ -160,11 +160,14 @@ print(f"Global Top-k 阈值（基于 |B|）：{threshold:.6f}")
 print("=== Stage2：sparse LoRI 训练（仅 mask==1 的 B 继续更新） ===")
 # 重新构建 optimizer，仍然只优化 B，且关闭 weight_decay
 # optimizer = Adam(sam_lori.get_B_parameters(), lr=lr_stage2, weight_decay=weight_decay_B)
+B_params = sam_lori.get_B_parameters()
+B_masks = sam_lori.lori_masks
+
 optimizer = MaskedAdam(
-    params=sam_lori.get_B_parameters(),
+    params=B_params,
     lr=lr_stage2,
     weight_decay=weight_decay_B,
-    masks=sam_lori.lori_masks
+    masks=B_masks
 )
 
 losses_stage2 = []
