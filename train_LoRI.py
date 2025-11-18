@@ -22,7 +22,7 @@ import shutil
 import matplotlib.pyplot as plt
 
 # ----------------- 基本配置 -----------------
-num = 4
+num = 6
 batch = 1
 rank = 4
 
